@@ -1,6 +1,5 @@
 
 import { useState, useEffect } from "react";
-import { Layout } from "@/components/layout/Layout";
 import { ProductGrid } from "@/components/products/ProductGrid";
 import { ProductFilters, FilterOptions } from "@/components/products/ProductFilters";
 import { products } from "@/data/products";
@@ -23,13 +22,13 @@ export default function ProductsPage() {
     if (categoryParam) {
       applyFilters({
         category: categoryParam.charAt(0).toUpperCase() + categoryParam.slice(1),
-        priceRange: [minPrice, maxPrice],
+        priceRange: [minPrice, maxPrice] as [number, number],
         searchQuery: "",
         inStock: false,
         sortBy: "featured"
       });
     }
-  }, [categoryParam]);
+  }, [categoryParam, minPrice, maxPrice]);
 
   const applyFilters = (filters: FilterOptions) => {
     let filtered = [...products];
@@ -95,28 +94,26 @@ export default function ProductsPage() {
   };
 
   return (
-    <Layout>
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold mb-8">Products</h1>
-        
-        <div className="lg:grid lg:grid-cols-4 lg:gap-8">
-          <div className="lg:col-span-1 mb-6 lg:mb-0">
-            <ProductFilters
-              onFilterChange={applyFilters}
-              minPrice={minPrice}
-              maxPrice={maxPrice}
-            />
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-3xl font-bold mb-8">Products</h1>
+      
+      <div className="lg:grid lg:grid-cols-4 lg:gap-8">
+        <div className="lg:col-span-1 mb-6 lg:mb-0">
+          <ProductFilters
+            onFilterChange={applyFilters}
+            minPrice={minPrice}
+            maxPrice={maxPrice}
+          />
+        </div>
+        <div className="lg:col-span-3">
+          <div className="mb-4">
+            <p className="text-muted-foreground">
+              Showing {filteredProducts.length} products
+            </p>
           </div>
-          <div className="lg:col-span-3">
-            <div className="mb-4">
-              <p className="text-muted-foreground">
-                Showing {filteredProducts.length} products
-              </p>
-            </div>
-            <ProductGrid products={filteredProducts} />
-          </div>
+          <ProductGrid products={filteredProducts} />
         </div>
       </div>
-    </Layout>
+    </div>
   );
 }

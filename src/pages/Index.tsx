@@ -2,7 +2,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Layout } from "@/components/layout/Layout";
 import { ProductCard } from "@/components/products/ProductCard";
 import { products } from "@/data/products";
 import { ArrowRight, ShieldCheck, Truck, BarChart3, MessageSquare } from "lucide-react";
@@ -20,7 +19,7 @@ export default function Index() {
   }, []);
 
   return (
-    <Layout>
+    <>
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-accent to-accent/50 py-16">
         <div className="container mx-auto px-4">
@@ -156,6 +155,6 @@ export default function Index() {
           </div>
         </div>
       </section>
-    </Layout>
+    </>
   );
 }
