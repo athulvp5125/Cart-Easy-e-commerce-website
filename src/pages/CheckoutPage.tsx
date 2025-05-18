@@ -8,13 +8,16 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { formatPrice } from "@/data/products";
 import { useToast } from "@/components/ui/use-toast";
-import { ArrowLeft, CreditCard, Check, Loader } from "lucide-react";
+import { ArrowLeft, CreditCard, Check, Loader, QrCode } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { motion } from "framer-motion";
 
 export default function CheckoutPage() {
   const { items, cartTotal, clearCart } = useCart();
   const navigate = useNavigate();
   const { toast } = useToast();
   const [isProcessing, setIsProcessing] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState("card");
   
   const [formData, setFormData] = useState({
     fullName: "",
@@ -42,7 +45,13 @@ export default function CheckoutPage() {
     e.preventDefault();
     
     // Form validation
-    const requiredFields = ['fullName', 'email', 'address', 'city', 'state', 'zipCode', 'cardNumber', 'cardExpiry', 'cardCvc'];
+    let requiredFields = ['fullName', 'email', 'address', 'city', 'state', 'zipCode'];
+    
+    // Add card fields to validation if card payment method is selected
+    if (paymentMethod === 'card') {
+      requiredFields = [...requiredFields, 'cardNumber', 'cardExpiry', 'cardCvc'];
+    }
+    
     const emptyFields = requiredFields.filter(field => !formData[field as keyof typeof formData]);
     
     if (emptyFields.length > 0) {
@@ -81,7 +90,12 @@ export default function CheckoutPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="container mx-auto px-4 py-8"
+    >
       <div className="mb-8">
         <Button variant="ghost" asChild className="mb-4">
           <Link to="/cart" className="flex items-center">
@@ -95,7 +109,12 @@ export default function CheckoutPage() {
         {/* Checkout Form */}
         <div className="lg:col-span-2">
           <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="bg-card rounded-lg border shadow-sm p-6">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2, duration: 0.5 }}
+              className="bg-card rounded-lg border shadow-sm p-6"
+            >
               <h2 className="text-lg font-semibold mb-4">Shipping Information</h2>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -168,66 +187,117 @@ export default function CheckoutPage() {
                   />
                 </div>
               </div>
-            </div>
+            </motion.div>
             
-            <div className="bg-card rounded-lg border shadow-sm p-6">
-              <h2 className="text-lg font-semibold mb-4">Payment Information</h2>
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4, duration: 0.5 }}
+              className="bg-card rounded-lg border shadow-sm p-6"
+            >
+              <h2 className="text-lg font-semibold mb-4">Payment Method</h2>
               
-              <div className="space-y-2">
-                <Label htmlFor="cardNumber">Card Number</Label>
-                <Input 
-                  id="cardNumber"
-                  name="cardNumber"
-                  value={formData.cardNumber}
-                  onChange={handleInputChange}
-                  placeholder="1234 5678 9012 3456"
-                />
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                <div className="space-y-2">
-                  <Label htmlFor="cardExpiry">Expiry Date</Label>
-                  <Input 
-                    id="cardExpiry"
-                    name="cardExpiry"
-                    value={formData.cardExpiry}
-                    onChange={handleInputChange}
-                    placeholder="MM/YY"
-                  />
-                </div>
+              <Tabs defaultValue="card" onValueChange={value => setPaymentMethod(value)} className="w-full">
+                <TabsList className="grid w-full grid-cols-2 mb-6">
+                  <TabsTrigger value="card" className="flex items-center justify-center">
+                    <CreditCard className="w-4 h-4 mr-2" />
+                    Card Payment
+                  </TabsTrigger>
+                  <TabsTrigger value="qr" className="flex items-center justify-center">
+                    <QrCode className="w-4 h-4 mr-2" />
+                    QR Payment
+                  </TabsTrigger>
+                </TabsList>
                 
-                <div className="space-y-2">
-                  <Label htmlFor="cardCvc">CVC</Label>
-                  <Input 
-                    id="cardCvc"
-                    name="cardCvc"
-                    value={formData.cardCvc}
-                    onChange={handleInputChange}
-                    placeholder="123"
-                  />
-                </div>
-              </div>
-            </div>
+                <TabsContent value="card" className="mt-0">
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="cardNumber">Card Number</Label>
+                      <Input 
+                        id="cardNumber"
+                        name="cardNumber"
+                        value={formData.cardNumber}
+                        onChange={handleInputChange}
+                        placeholder="1234 5678 9012 3456"
+                      />
+                    </div>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="cardExpiry">Expiry Date</Label>
+                        <Input 
+                          id="cardExpiry"
+                          name="cardExpiry"
+                          value={formData.cardExpiry}
+                          onChange={handleInputChange}
+                          placeholder="MM/YY"
+                        />
+                      </div>
+                      
+                      <div className="space-y-2">
+                        <Label htmlFor="cardCvc">CVC</Label>
+                        <Input 
+                          id="cardCvc"
+                          name="cardCvc"
+                          value={formData.cardCvc}
+                          onChange={handleInputChange}
+                          placeholder="123"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </TabsContent>
+                
+                <TabsContent value="qr" className="mt-0">
+                  <div className="flex flex-col items-center justify-center text-center p-4">
+                    <div className="mb-4 p-4 bg-white rounded-lg shadow-md inline-block">
+                      <QrCode className="w-48 h-48 text-primary animate-pulse" />
+                    </div>
+                    <p className="text-sm text-muted-foreground mb-2">Scan with your payment app</p>
+                    <p className="font-medium">Pay {formatPrice(totalAmount)}</p>
+                    <div className="flex gap-2 mt-4">
+                      <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/Google_Pay_Logo.svg" alt="Google Pay" className="h-8" />
+                      <img src="https://upload.wikimedia.org/wikipedia/commons/2/24/Paytm_Logo_%28standalone%29.svg" alt="Paytm" className="h-8" />
+                      <img src="https://upload.wikimedia.org/wikipedia/commons/7/71/PhonePe_Logo.svg" alt="PhonePe" className="h-8" />
+                    </div>
+                  </div>
+                </TabsContent>
+              </Tabs>
+            </motion.div>
 
-            <Button type="submit" className="w-full" disabled={isProcessing}>
-              {isProcessing ? (
-                <>
-                  <Loader className="mr-2 h-4 w-4 animate-spin" />
-                  Processing...
-                </>
-              ) : (
-                <>
-                  <CreditCard className="mr-2 h-4 w-4" />
-                  Complete Order
-                </>
-              )}
-            </Button>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6, duration: 0.5 }}
+            >
+              <Button type="submit" className="w-full" disabled={isProcessing}>
+                {isProcessing ? (
+                  <>
+                    <Loader className="mr-2 h-4 w-4 animate-spin" />
+                    Processing...
+                  </>
+                ) : (
+                  <>
+                    {paymentMethod === 'card' ? 
+                      <CreditCard className="mr-2 h-4 w-4" /> : 
+                      <QrCode className="mr-2 h-4 w-4" />
+                    }
+                    Complete Order
+                  </>
+                )}
+              </Button>
+            </motion.div>
           </form>
         </div>
         
         {/* Order Summary */}
         <div className="lg:col-span-1">
-          <div className="bg-card rounded-lg border shadow-sm p-6 sticky top-24">
+          <motion.div 
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.3, duration: 0.5 }}
+            className="bg-card rounded-lg border shadow-sm p-6 sticky top-24"
+          >
             <h2 className="text-lg font-semibold mb-4">Order Summary</h2>
             
             <div className="max-h-64 overflow-y-auto space-y-4 mb-4">
@@ -284,9 +354,9 @@ export default function CheckoutPage() {
                 Secure payment processing
               </p>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }

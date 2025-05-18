@@ -2,6 +2,7 @@
 import { Product } from "@/types";
 
 export const products: Product[] = [
+  // Electronics
   {
     id: "1",
     name: "Premium Wireless Headphones",
@@ -34,6 +35,8 @@ export const products: Product[] = [
     rating: 4.3,
     featuredBadge: "New Arrival"
   },
+  
+  // Fashion
   {
     id: "4",
     name: "Designer Leather Bag",
@@ -45,6 +48,28 @@ export const products: Product[] = [
     rating: 4.7
   },
   {
+    id: "13",
+    name: "Premium Silk Dress",
+    description: "Elegant silk dress perfect for special occasions and formal events.",
+    price: 12999,
+    imageUrl: "https://images.unsplash.com/photo-1539008835657-9e8e9680c956",
+    category: "fashion",
+    inStock: true,
+    rating: 4.6
+  },
+  {
+    id: "14",
+    name: "Men's Formal Suit",
+    description: "Classic tailored suit that offers both comfort and style for any formal occasion.",
+    price: 24999,
+    imageUrl: "https://images.unsplash.com/photo-1507679799987-c73779587ccf",
+    category: "fashion",
+    inStock: true,
+    rating: 4.8
+  },
+  
+  // Home Electronics
+  {
     id: "5",
     name: "HD Smart TV",
     description: "Experience stunning visuals with this 4K Ultra HD Smart TV. Stream your favorite content with built-in apps.",
@@ -54,6 +79,8 @@ export const products: Product[] = [
     inStock: false,
     rating: 4.6
   },
+  
+  // Photography
   {
     id: "6",
     name: "Professional DSLR Camera",
@@ -65,6 +92,8 @@ export const products: Product[] = [
     rating: 4.9,
     featuredBadge: "Premium"
   },
+  
+  // Furniture
   {
     id: "7",
     name: "Ergonomic Office Chair",
@@ -76,6 +105,18 @@ export const products: Product[] = [
     rating: 4.4
   },
   {
+    id: "15",
+    name: "Modern Coffee Table",
+    description: "Stylish coffee table with minimalist design, perfect for contemporary living rooms.",
+    price: 14999,
+    imageUrl: "https://images.unsplash.com/photo-1567016526105-22da7c13161a",
+    category: "furniture",
+    inStock: true,
+    rating: 4.3
+  },
+  
+  // Audio
+  {
     id: "8",
     name: "Wireless Earbuds",
     description: "True wireless earbuds with premium sound quality and long battery life.",
@@ -85,6 +126,8 @@ export const products: Product[] = [
     inStock: true,
     rating: 4.2
   },
+  
+  // Appliances
   {
     id: "9",
     name: "Coffee Maker Machine",
@@ -96,6 +139,19 @@ export const products: Product[] = [
     rating: 4.5
   },
   {
+    id: "16",
+    name: "Air Fryer",
+    description: "Healthy cooking made easy with this advanced air fryer. Cook crispy foods with little to no oil.",
+    price: 8999,
+    imageUrl: "https://images.unsplash.com/photo-1648170722333-1eee6874f59f",
+    category: "appliances",
+    inStock: true,
+    rating: 4.7,
+    featuredBadge: "Hot Deal"
+  },
+  
+  // Audio
+  {
     id: "10",
     name: "Portable Bluetooth Speaker",
     description: "Take your music anywhere with this powerful portable Bluetooth speaker with 20-hour battery life.",
@@ -105,6 +161,8 @@ export const products: Product[] = [
     inStock: true,
     rating: 4.3
   },
+  
+  // Smart Home
   {
     id: "11",
     name: "Smart Home Hub",
@@ -117,6 +175,18 @@ export const products: Product[] = [
     featuredBadge: "Popular"
   },
   {
+    id: "17",
+    name: "Smart Security Camera",
+    description: "Keep your home safe with this HD security camera featuring motion detection and night vision.",
+    price: 6999,
+    imageUrl: "https://images.unsplash.com/photo-1517292987719-0369a794ec0f",
+    category: "smart home",
+    inStock: true,
+    rating: 4.4
+  },
+  
+  // Gaming
+  {
     id: "12",
     name: "Mechanical Gaming Keyboard",
     description: "Enhance your gaming experience with this responsive mechanical keyboard with customizable RGB lighting.",
@@ -125,7 +195,53 @@ export const products: Product[] = [
     category: "gaming",
     inStock: true,
     rating: 4.7
-  }
+  },
+  {
+    id: "18",
+    name: "Gaming Console",
+    description: "Next-generation gaming console with stunning graphics and fast performance for an immersive gaming experience.",
+    price: 49999,
+    imageUrl: "https://images.unsplash.com/photo-1607853202273-797f1c22a38e",
+    category: "gaming",
+    inStock: true,
+    rating: 4.9,
+    featuredBadge: "New Gen"
+  },
+  
+  // Beauty
+  {
+    id: "19",
+    name: "Luxury Skincare Set",
+    description: "Complete premium skincare routine with natural ingredients for radiant, healthy skin.",
+    price: 12999,
+    imageUrl: "https://images.unsplash.com/photo-1598440947619-2c35fc9aa908",
+    category: "beauty",
+    inStock: true,
+    rating: 4.8,
+    featuredBadge: "Best Seller"
+  },
+  {
+    id: "20",
+    name: "Professional Hair Dryer",
+    description: "Salon-quality hair dryer with multiple heat settings and ionic technology for quick, frizz-free drying.",
+    price: 5999,
+    imageUrl: "https://images.unsplash.com/photo-1522338242992-e1a54906a8da",
+    category: "beauty",
+    inStock: true,
+    rating: 4.5
+  },
+  
+  // Books
+  {
+    id: "21",
+    name: "E-Book Reader",
+    description: "Ultra-thin e-reader with anti-glare screen and weeks of battery life. Holds thousands of books.",
+    price: 11999,
+    imageUrl: "https://images.unsplash.com/photo-1544164559-2e64cde4d1c6",
+    category: "electronics",
+    inStock: true,
+    rating: 4.6
+  },
 ];
 
 export const categories = [
@@ -136,7 +252,8 @@ export const categories = [
   "Furniture",
   "Appliances",
   "Smart Home",
-  "Gaming"
+  "Gaming",
+  "Beauty"
 ];
 
 export const formatPrice = (price: number): string => {
