@@ -173,7 +173,7 @@ export default function CartPage() {
             <Button className="w-full mt-6" asChild>
               <Link to="/checkout">
                 <CreditCard className="mr-2 h-4 w-4" />
-                Checkout
+                Proceed to Checkout
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>

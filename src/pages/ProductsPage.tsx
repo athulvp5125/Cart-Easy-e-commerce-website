@@ -5,6 +5,8 @@ import { ProductFilters, FilterOptions } from "@/components/products/ProductFilt
 import { products } from "@/data/products";
 import { Product } from "@/types";
 import { useSearchParams } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { SlidersHorizontal, X } from "lucide-react";
 
 export default function ProductsPage() {
   const [searchParams] = useSearchParams();
@@ -93,18 +95,57 @@ export default function ProductsPage() {
     setFilteredProducts(filtered);
   };
 
+  const toggleMobileFilters = () => {
+    setIsMobileFiltersOpen(!isMobileFiltersOpen);
+  };
+
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8">Products</h1>
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-3xl font-bold">Products</h1>
+        <Button 
+          variant="outline" 
+          onClick={toggleMobileFilters}
+          className="lg:hidden flex items-center"
+        >
+          <SlidersHorizontal className="w-4 h-4 mr-2" />
+          Filters
+        </Button>
+      </div>
       
       <div className="lg:grid lg:grid-cols-4 lg:gap-8">
-        <div className="lg:col-span-1 mb-6 lg:mb-0">
+        {/* Mobile filter drawer */}
+        {isMobileFiltersOpen && (
+          <div className="fixed inset-0 bg-black/50 z-40 lg:hidden" onClick={toggleMobileFilters}>
+            <div 
+              className="absolute right-0 top-0 h-full w-[300px] bg-background p-4 overflow-y-auto"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="font-semibold text-lg">Filters</h2>
+                <Button variant="ghost" size="icon" onClick={toggleMobileFilters}>
+                  <X className="h-4 w-4" />
+                </Button>
+              </div>
+              <ProductFilters
+                onFilterChange={applyFilters}
+                minPrice={minPrice}
+                maxPrice={maxPrice}
+              />
+            </div>
+          </div>
+        )}
+        
+        {/* Desktop filters sidebar */}
+        <div className="hidden lg:block lg:col-span-1">
           <ProductFilters
             onFilterChange={applyFilters}
             minPrice={minPrice}
             maxPrice={maxPrice}
           />
         </div>
+        
+        {/* Product grid */}
         <div className="lg:col-span-3">
           <div className="mb-4">
             <p className="text-muted-foreground">
