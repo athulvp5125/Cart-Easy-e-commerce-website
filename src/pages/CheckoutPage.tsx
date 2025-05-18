@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { formatPrice } from "@/data/products";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { ArrowLeft, CreditCard, Check, Loader, QrCode } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { motion } from "framer-motion";
@@ -250,15 +250,44 @@ export default function CheckoutPage() {
                 
                 <TabsContent value="qr" className="mt-0">
                   <div className="flex flex-col items-center justify-center text-center p-4">
-                    <div className="mb-4 p-4 bg-white rounded-lg shadow-md inline-block">
-                      <QrCode className="w-48 h-48 text-primary animate-pulse" />
+                    <div className="mb-6 p-6 bg-white rounded-lg shadow-lg border border-gray-200">
+                      <div className="relative">
+                        <QrCode className="w-48 h-48 text-black" strokeWidth={1} />
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <div className="bg-white rounded-full p-2">
+                            <img 
+                              src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" 
+                              alt="G Pay" 
+                              className="h-8 w-8" 
+                            />
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                    <p className="text-sm text-muted-foreground mb-2">Scan with your payment app</p>
-                    <p className="font-medium">Pay {formatPrice(totalAmount)}</p>
-                    <div className="flex gap-2 mt-4">
-                      <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/Google_Pay_Logo.svg" alt="Google Pay" className="h-8" />
-                      <img src="https://upload.wikimedia.org/wikipedia/commons/2/24/Paytm_Logo_%28standalone%29.svg" alt="Paytm" className="h-8" />
-                      <img src="https://upload.wikimedia.org/wikipedia/commons/7/71/PhonePe_Logo.svg" alt="PhonePe" className="h-8" />
+                    
+                    <div className="mb-4">
+                      <p className="font-medium text-lg mb-1">Scan to Pay {formatPrice(totalAmount)}</p>
+                      <p className="text-sm text-muted-foreground">Open your payment app and scan this QR code</p>
+                    </div>
+                    
+                    <div className="grid grid-cols-3 gap-4 mb-6">
+                      <div className="flex flex-col items-center p-2 border rounded-md hover:bg-accent/50 cursor-pointer">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/Google_Pay_Logo.svg" alt="Google Pay" className="h-8 mb-2" />
+                        <span className="text-xs">Google Pay</span>
+                      </div>
+                      <div className="flex flex-col items-center p-2 border rounded-md hover:bg-accent/50 cursor-pointer">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/2/24/Paytm_Logo_%28standalone%29.svg" alt="Paytm" className="h-8 mb-2" />
+                        <span className="text-xs">Paytm</span>
+                      </div>
+                      <div className="flex flex-col items-center p-2 border rounded-md hover:bg-accent/50 cursor-pointer">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/7/71/PhonePe_Logo.svg" alt="PhonePe" className="h-8 mb-2" />
+                        <span className="text-xs">PhonePe</span>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-center justify-center space-x-2 text-sm">
+                      <span className="inline-block w-2 h-2 rounded-full bg-green-500"></span>
+                      <span>Ready to accept payment</span>
                     </div>
                   </div>
                 </TabsContent>
